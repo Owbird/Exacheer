@@ -8,11 +8,11 @@ const Clients = () => {
                 <div className="row">
 
                     <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                        <img src="assets/img/clients/knust.png" className="img-fluid" alt="" />
+                        <img src="https://ik.imagekit.io/exacheer/knust-logo_dDxPWZQHc.png?ik-sdk-version=javascript-1.4.3&updatedAt=1653729854267" className="img-fluid" alt="" />
                     </div>
 
                     <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                        <img src="assets/img/clients/ug.png" className="img-fluid" alt="" />
+                        <img src="https://ik.imagekit.io/exacheer/ug_ZY2J65QBQ.png?ik-sdk-version=javascript-1.4.3&updatedAt=1653729854158" className="img-fluid" alt="" />
                     </div>
 
                     {/* <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">

@@ -55,11 +55,11 @@ export default function AuthPage() {
     const avatars = [
         {
             name: 'KNUST',
-            url: 'http://localhost:3000/assets/img/clients/knust-logo.png',
+            url: 'https://ik.imagekit.io/exacheer/knust-logo_dDxPWZQHc.png?ik-sdk-version=javascript-1.4.3&updatedAt=1653729854267',
         },
         {
             name: 'UG',
-            url: 'http://localhost:3000/assets/img/clients/ug-logo.png',
+            url: 'https://ik.imagekit.io/exacheer/ug-logo_gWqa2DMi2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1653729854306',
         },
 
     ];
