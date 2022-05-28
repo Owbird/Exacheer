@@ -281,9 +281,9 @@ const LandingPage = () => {
                 </div>
             </footer>
 
-            <div id="preloader">
+            {/* <div id="preloader">
                 <Spinner />
-            </div>
+            </div> */}
 
 
             <a href="#" className="back-to-top d-flex align-items-center justify-content-center"><i className="bi bi-arrow-up-short"></i></a>
