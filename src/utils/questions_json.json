@@ -1,0 +1,46 @@
+[
+    {
+        "index": 48,
+        "question": "Which of the following are the principles that need to be adopted in Economics to deal with the Environment responsibly\n1) Marketing of safe products and services\n2) Curtailing the use of energy by developing economies\n3) Reduction and Disposal of manufactured products\n4) Environmental Directors and Managers for enterprises and corporations",
+        "correctOptions": [
+            "A"
+        ],
+        "optionType": "One Selection",
+        "options": [
+            {
+                "optionText": "1, 3 and 4"
+            },
+            {
+                "optionText": "1, 2 and 3"
+            },
+            {
+                "optionText": "2 and 4"
+            },
+            {
+                "optionText": "1 and 3"
+            }
+        ]
+    },
+    {
+        "index": 49,
+        "question": "Which of the following is a correct combination?\nType of Ethics\t\t\t\tDesciption\n1) Contractualism\t\t\tA) Social Agreement among a range of parties on ethical principles\n2) Deontology\t\t\t\tB) Ethics based on the fulfillment of one's duty\n3) Consequentialism\t\t\t\tC) Ethics based upon the nature of consequences of action\n4) Virtue Ethics\t\t\t\tD) Emphases on the exellence of mind and character",
+        "correctOptions": [
+            "A"
+        ],
+        "optionType": "One Selection",
+        "options": [
+            {
+                "optionText": "1 – A; 2 – B; 3 – C; 4 – D"
+            },
+            {
+                "optionText": "1 – C; 2 – D; 3 – A; 4 – B"
+            },
+            {
+                "optionText": "1 – A and 2 – B"
+            },
+            {
+                "optionText": "3 – C and 4 – D"
+            }
+        ]
+    }
+]
