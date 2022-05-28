@@ -86,13 +86,11 @@ const getUserData = async (email) => {
         let docRef = await getDoc(doc(database, `/user data/${email}`))
         data = docRef.data()
     } catch (e) {
-        console.log(e.message)
         data = { err: e.message }
     }
     // if (!docRef) {
     //     docRef = await getDoc(doc(database, `/user data/${email}`))
     // }
-    console.log("get user data main fuync", data)
     return data
 
 }

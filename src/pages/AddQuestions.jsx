@@ -125,7 +125,6 @@ function AddQuestions() {
 
         let docRef = doc(database, `/banks/${params.id}/questions/${id}`)
 
-        console.log(id, action, value, extra)
 
         try {
 
@@ -152,7 +151,6 @@ function AddQuestions() {
                     await updateDoc(docRef, { options: [...docSnap.data().options, { optionText: "" }] })
                     break
                 case "deleteQuestion":
-                    console.log(id)
                     await deleteData(`/banks/${params.id}/questions/${id}`)
                     break
                 case "deleteOption":
@@ -173,7 +171,6 @@ function AddQuestions() {
             setShowLoading(false)
 
 
-            console.log("Done", value)
         } catch (err) {
             toast.error(err.message, {
                 position: "bottom-right",

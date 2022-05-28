@@ -224,7 +224,6 @@ function ResultsTable({ responses, examData, id }) {
     useEffect(() => {
         let res = []
         responses.forEach((response) => {
-            console.log(response.data(), "resss")
 
             const data = response.data()
 
@@ -241,7 +240,6 @@ function ResultsTable({ responses, examData, id }) {
             })
 
             setResponseData(res)
-            console.log(res)
         })
     }, [])
 

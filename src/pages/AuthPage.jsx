@@ -91,7 +91,6 @@ export default function AuthPage() {
 
                     await submitUserData({ ...values, examinerID })
                 }).catch((err) => {
-                    console.log("from upload")
                     toast.error(err.message, {
                         position: "bottom-right",
                         autoClose: 5000,
@@ -117,12 +116,10 @@ export default function AuthPage() {
                         progress: undefined,
                     })
                 } else {
-                    console.log(res, "from get user data")
                     setCookies('user', res, { path: '/' })
                     navigator('/verification/')
                 }
             }).catch((err) => {
-                console.log("from get user data")
                 toast.error(err.message, {
                     position: "bottom-right",
                     autoClose: 5000,

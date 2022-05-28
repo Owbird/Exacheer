@@ -19,7 +19,6 @@ const VerificationWrapper = () => {
         if (!cookies.user) {
             navigator('/auth')
         } else {
-            console.log(cookies.user)
             onSnapshot(doc(database, "user data", cookies.user.email), (doc) => {
                 if (doc.data()['isVerified']) {
                     navigator('/dashboard')

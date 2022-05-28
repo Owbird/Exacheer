@@ -144,10 +144,8 @@ function AddQuestions() {
         // })
 
         onSnapshot(query(collection(database, `/exams/${params.id}/alts`), orderBy('alt')), (doc) => {
-            console.log(doc.docs)
 
             if (doc.docs.length === 0) {
-                console.log("Running")
 
                 getDocs(query(collection(database, '/banks/'), orderBy('lastEdit', 'desc'))).then((value) => {
 
@@ -188,7 +186,6 @@ function AddQuestions() {
         }
 
 
-        console.log(values)
         let proceed = true
 
         let questions = []
@@ -208,12 +205,10 @@ function AddQuestions() {
 
         };
 
-        console.log(questions, questions.length)
 
         const alts = {}
 
         for (let index = 1; index <= parseInt(values.totalAlts); index++) {
-            console.log("generating alt", index)
 
             // alts[`alt${index}`] = 
             // console.log(questions.sort(() => Math.random() - 0.5)[0].question)
@@ -226,7 +221,6 @@ function AddQuestions() {
 
 
             while (a.length != values.totalQuestions) {
-                console.log(a.length, values.totalQuestions)
                 const pp = Math.floor(Math.random() * questions.length)
 
                 if (!(ab.includes(pp))) {
@@ -244,7 +238,6 @@ function AddQuestions() {
             })
         }
 
-        console.log(alts)
 
         updateBank('totals', values)
 
@@ -326,14 +319,12 @@ function AddQuestions() {
                 break;
 
         }
-        console.log(newDocs)
         setBanks(newDocs)
 
     }
 
     const updateSelectedBanks = (value) => {
 
-        console.log(value)
 
         if (!selectedBanks.some(selectedBank => selectedBank.id === value.id)) {
             setSelectedBanks([...selectedBanks, value])

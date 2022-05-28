@@ -112,8 +112,7 @@ const TakeExams = () => {
 
     useEffect(() => {
 
-        console.log(cookies.examInfo)
-        console.log("RUnning")
+
 
         if (cookies.examInfo) {
             setIsValidated(true)
@@ -128,7 +127,6 @@ const TakeExams = () => {
     }, [])
 
     const startTimer = (maxAge) => {
-        console.log('init', maxAge)
         let time = maxAge
         if (time === 0) {
             toast.error("TIME UP!", {
@@ -217,14 +215,12 @@ const TakeExams = () => {
             alt = 1
         }
         onSnapshot(query(collection(database, `/exams/${params.id}/alts`), where("alt", '==', alt)), (docs) => {
-            console.log('Chosen alt', alt, "found", docs.docs)
             setSelectedAlt(alt)
             let chosenDocs = []
             // await getDocs(collection(database, `/exams/${params.id}/alts`)).then((altDocs) => {
             //     console.log("Alt", alt)
 
             docs.docs[0].data().questions.every(async (question) => {
-                console.log(question)
 
                 await getDoc(doc(database, question.path)).then((aQuestion) => {
                     chosenDocs.push(aQuestion)
@@ -263,7 +259,6 @@ const TakeExams = () => {
                 indexNumber: indexNo,
             }).then(() => {
                 const maxAge = moment(examData.endTime.toDate()).diff(moment(examData.startTime.toDate()), 'seconds')
-                console.log(maxAge)
                 const encryptedExamInfo = encDec({
                     alt: selectedAlt,
                     indexNumber: indexNo,
@@ -305,7 +300,6 @@ const TakeExams = () => {
 
     const uploadToCloud = async (data) => {
 
-        console.log(data, "to cloud")
 
         await setDoc(doc(database, `/exams/${params.id}/responses/${indexNo}/answers/${data.questionNumber}`), data).then((res) => {
             toast.success(`Question ${data.questionNumber} saved`, {
@@ -321,13 +315,11 @@ const TakeExams = () => {
             const cData = {}
             cData[data.questionNumber] = data.choices.toString()
 
-            console.log(encDec({ ...cookies.examInfo, ...cData }, true), "c data")
 
             setCookies('examInfo', encDec({ ...cookies.examInfo, ...cData }, true), { path: '/' })
 
         })
 
-        console.log("here")
     }
 
     const submit = () => {
@@ -448,7 +440,6 @@ const TakeExams = () => {
                                                                         // defaultChecked={cookies.examInfo && cookies.examInfo[index + 1].includes(formatOptionIndex(optionIndex))}
                                                                         // isChecked={cookies.examInfo && cookies.examInfo[index + 1].includes(formatOptionIndex(optionIndex))}
                                                                         onChange={(e) => {
-                                                                            console.log(formatOptionIndex(optionIndex))
 
                                                                             const newAnswers = {
                                                                                 questionNumber: index + 1,
@@ -461,7 +452,6 @@ const TakeExams = () => {
                                                                             }
 
 
-                                                                            console.log(newAnswers)
 
                                                                             uploadToCloud(newAnswers)
 
@@ -506,7 +496,6 @@ const TakeExams = () => {
 
                                                                         } else {
                                                                             if (encDec(cookies.examInfo, false)[index + 1].choices.includes(formatOptionIndex(optionIndex))) {
-                                                                                console.log("Already dey")
                                                                                 const temp = encDec(cookies.examInfo, false)
                                                                                 temp[index + 1].choices.splice(temp[index + 1].choices.indexOf(formatOptionIndex(optionIndex)), 1)
                                                                                 temp[index + 1].isCorrect = question.data().correctOptions.sort().toString() === temp[index + 1].choices.sort().toString()
@@ -515,7 +504,6 @@ const TakeExams = () => {
 
 
                                                                             } else {
-                                                                                console.log("Adding another")
                                                                                 const temp = encDec(cookies.examInfo, false)
 
                                                                                 temp[index + 1].choices.push(formatOptionIndex(optionIndex))

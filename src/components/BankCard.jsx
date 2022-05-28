@@ -45,7 +45,6 @@ export default function BankCard({ isNewCard, bank }) {
                     res.name = "Exacheer"
                 }
 
-                console.log(res, bank.user, "hellooooooo")
 
                 setUserData(res)
             })

@@ -105,7 +105,6 @@ function ViewQuestions() {
         const isExamQuestion = searchParams.get("w") === "e"
 
         setTitle(searchParams.get('t'))
-        console.log(searchParams.get('t'), "title")
 
 
 
@@ -114,7 +113,6 @@ function ViewQuestions() {
         const user = AES.decrypt(searchParams.get("u"), "exacheer")
         getUserData(user.toString(enc.Utf8)).then((res) => setUserData(res))
 
-        console.log(searchParams.get("u"), user.toString(enc.Utf8), "Hi")
 
 
         switch (searchParams.get("w")) {
@@ -137,9 +135,7 @@ function ViewQuestions() {
 
     const getResponse = async (searchParams, user) => {
         let docs = []
-        console.log(user)
         await getDocs(collection(database, `/exams/${params.id}/responses/${user}/answers`)).then((examDocs) => {
-            console.log(examDocs.docs)
 
             setQuestions(examDocs.docs)
             setUserData({ name: user, institution: "", })
@@ -232,13 +228,11 @@ function ViewQuestions() {
     }
 
     const download = async (type) => {
-        console.log(type)
 
         let _questions = []
         let _answers = []
 
         if (type === "q" || type === "qa") {
-            console.log("Questions")
             _questions = [
                 new Paragraph({
 
@@ -292,7 +286,6 @@ function ViewQuestions() {
         }
 
         if (type === "a" || type === "qa") {
-            console.log("Answers")
 
             _answers = [
 
