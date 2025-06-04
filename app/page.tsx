@@ -82,13 +82,6 @@ export default function Home() {
                     Get Started for Free
                   </Button>
                 </Link>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-purple-200 text-purple-700 hover:bg-purple-50"
-                >
-                  See a Demo
-                </Button>
               </div>
             </div>
             <div className="relative h-[400px] w-full">
@@ -100,6 +93,33 @@ export default function Home() {
               />
             </div>
           </div>
+        </section>
+
+        <section className="flex flex-col justify-center items-center">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Watch Our Demo
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              See Exacheer in action and discover how it can transform your exam
+              creation process.
+            </p>
+          </div>
+
+          <iframe
+            style={{
+              borderRadius: 25,
+              marginTop: 25,
+              boxShadow: "5px 10px 10px blue",
+            }}
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/DQ49w8iJ6n0"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </section>
 
         {/* Feature Highlights */}
