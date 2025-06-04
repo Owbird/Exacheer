@@ -24,7 +24,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { AreaChart } from "@/components/ui/chart"
 import { DashboardShell } from "@/components/dashboard-shell"
 
 export default function DashboardPage() {
@@ -35,7 +34,11 @@ export default function DashboardPage() {
         <div className="flex items-center space-x-2">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search..." className="w-[200px] lg:w-[300px] pl-8" />
+            <Input
+              type="search"
+              placeholder="Search..."
+              className="w-[200px] lg:w-[300px] pl-8"
+            />
           </div>
           <Button variant="outline" size="icon" className="relative">
             <Bell className="h-4 w-4" />
@@ -47,7 +50,10 @@ export default function DashboardPage() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Dr. Mensah" />
+                  <AvatarImage
+                    src="/placeholder.svg?height=32&width=32"
+                    alt="Dr. Mensah"
+                  />
                   <AvatarFallback>DM</AvatarFallback>
                 </Avatar>
               </Button>
@@ -56,7 +62,9 @@ export default function DashboardPage() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">Dr. Mensah</p>
-                  <p className="text-xs leading-none text-muted-foreground">dr.mensah@university.edu</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    dr.mensah@university.edu
+                  </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -74,7 +82,9 @@ export default function DashboardPage() {
         <CardContent className="flex flex-col md:flex-row items-start md:items-center justify-between p-6">
           <div className="space-y-2">
             <h3 className="text-2xl font-bold">Welcome back, Dr. Mensah 👋</h3>
-            <p className="text-muted-foreground">Let's create something brilliant today. Your AI co-pilot is ready.</p>
+            <p className="text-muted-foreground">
+              Let's create something brilliant today. Your AI co-pilot is ready.
+            </p>
           </div>
           <Button className="mt-4 md:mt-0 bg-purple-600 hover:bg-purple-700">
             <Sparkles className="mr-2 h-4 w-4" />
@@ -87,7 +97,9 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3 mt-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Exams Created This Month</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Exams Created This Month
+            </CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -98,23 +110,31 @@ export default function DashboardPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Time to Create an Exam</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Avg Time to Create an Exam
+            </CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">28 min</div>
-            <p className="text-xs text-muted-foreground">-15 min with AI assistance</p>
+            <p className="text-xs text-muted-foreground">
+              -15 min with AI assistance
+            </p>
             <Progress value={65} className="mt-3 h-1" />
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Student Engagement Score</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Student Engagement Score
+            </CardTitle>
             <ThumbsUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">92%</div>
-            <p className="text-xs text-muted-foreground">+5% from previous exams</p>
+            <p className="text-xs text-muted-foreground">
+              +5% from previous exams
+            </p>
             <Progress value={92} className="mt-3 h-1" />
           </CardContent>
         </Card>
@@ -135,7 +155,9 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-medium">{activity.title}</p>
-                  <p className="text-xs text-muted-foreground">{activity.time}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {activity.time}
+                  </p>
                 </div>
               </div>
             ))}
@@ -151,9 +173,13 @@ export default function DashboardPage() {
           <CardHeader>
             <div className="flex items-center space-x-2">
               <CardTitle>📌 AI Drafts Waiting</CardTitle>
-              <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">3 New</Badge>
+              <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">
+                3 New
+              </Badge>
             </div>
-            <CardDescription>AI-generated content ready for review</CardDescription>
+            <CardDescription>
+              AI-generated content ready for review
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {aiSuggestions.map((suggestion, index) => (
@@ -162,7 +188,9 @@ export default function DashboardPage() {
                   <p className="text-sm font-medium">{suggestion.title}</p>
                   <Badge variant="outline">{suggestion.type}</Badge>
                 </div>
-                <p className="text-xs text-muted-foreground line-clamp-2">{suggestion.preview}</p>
+                <p className="text-xs text-muted-foreground line-clamp-2">
+                  {suggestion.preview}
+                </p>
                 <div className="flex space-x-2">
                   <Button variant="outline" size="sm" className="text-xs">
                     Review & Edit
@@ -182,26 +210,18 @@ export default function DashboardPage() {
             <CardTitle>Insights</CardTitle>
             <CardDescription>Performance analytics</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="h-[120px]">
-              <AreaChart
-                data={chartData}
-                index="month"
-                categories={["completion"]}
-                colors={["purple"]}
-                valueFormatter={(value) => `${value}%`}
-                showLegend={false}
-                showGridLines={false}
-                startEndOnly={true}
-                className="h-[120px]"
-              />
-            </div>
-            <div className="space-y-2">
+          <CardContent className="flex flex-col">
+            <div className="mt-auto space-y-2">
               <p className="text-sm font-medium">Most Missed Questions</p>
               <div className="space-y-1">
                 {mostMissedQuestions.map((question, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <p className="text-xs truncate max-w-[200px]">{question.text}</p>
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
+                    <p className="text-xs truncate max-w-[200px]">
+                      {question.text}
+                    </p>
                     <Badge variant="outline" className="text-xs">
                       {question.percentage}%
                     </Badge>
@@ -217,18 +237,30 @@ export default function DashboardPage() {
       <Card className="mt-6">
         <CardHeader>
           <CardTitle>Upcoming Exams</CardTitle>
-          <CardDescription>Manage your scheduled and draft exams</CardDescription>
+          <CardDescription>
+            Manage your scheduled and draft exams
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 px-4 text-sm font-medium">Exam Title</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium">Date</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium">Students</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium">Status</th>
-                  <th className="text-right py-3 px-4 text-sm font-medium">Actions</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium">
+                    Exam Title
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium">
+                    Date
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium">
+                    Students
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium">
+                    Status
+                  </th>
+                  <th className="text-right py-3 px-4 text-sm font-medium">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -248,8 +280,8 @@ export default function DashboardPage() {
                           exam.status === "Scheduled"
                             ? "bg-blue-100 text-blue-800 hover:bg-blue-100"
                             : exam.status === "Draft"
-                              ? "bg-slate-100 text-slate-800 hover:bg-slate-100"
-                              : "bg-green-100 text-green-800 hover:bg-green-100"
+                            ? "bg-slate-100 text-slate-800 hover:bg-slate-100"
+                            : "bg-green-100 text-green-800 hover:bg-green-100"
                         }
                       >
                         {exam.status}
@@ -258,7 +290,11 @@ export default function DashboardPage() {
                     <td className="py-3 px-4 text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -267,7 +303,9 @@ export default function DashboardPage() {
                           <DropdownMenuItem>Duplicate</DropdownMenuItem>
                           <DropdownMenuItem>Preview</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            Delete
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </td>
@@ -285,7 +323,7 @@ export default function DashboardPage() {
         New Exam
       </Button>
     </DashboardShell>
-  )
+  );
 }
 
 // Data
