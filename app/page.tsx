@@ -67,7 +67,7 @@ export default function Home() {
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                 Your AI Co-Pilot for{" "}
-                <span className="text-purple-600">Smarter Exams</span>
+                <span className="text-purple-600">Examiners</span>
               </h1>
               <p className="text-lg text-slate-600">
                 Exacheer helps examiners create, collaborate, and secure exams
