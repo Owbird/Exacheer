@@ -1,6 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   Bell,
   BookOpen,
@@ -12,21 +18,23 @@ import {
   Search,
   Sparkles,
   ThumbsUp,
-} from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DashboardShell } from "@/components/dashboard-shell"
+} from "@/components/ui/dropdown-menu";
+import { DashboardShell } from "@/components/dashboard-shell";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const user = await currentUser();
+
   return (
     <DashboardShell>
       <div className="flex items-center justify-between space-y-2">
@@ -46,34 +54,13 @@ export default function DashboardPage() {
               3
             </span>
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    src="/placeholder.svg?height=32&width=32"
-                    alt="Dr. Mensah"
-                  />
-                  <AvatarFallback>DM</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Dr. Mensah</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    dr.mensah@university.edu
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Avatar className="h-8 w-8">
+            <AvatarImage
+              src={`${user?.imageUrl}`}
+              alt={`${user?.firstName} ${user?.lastName}`}
+            />
+            <AvatarFallback>DM</AvatarFallback>
+          </Avatar>
         </div>
       </div>
 
@@ -81,7 +68,9 @@ export default function DashboardPage() {
       <Card className="mt-6 border-purple-100 bg-gradient-to-r from-purple-50 to-slate-50">
         <CardContent className="flex flex-col md:flex-row items-start md:items-center justify-between p-6">
           <div className="space-y-2">
-            <h3 className="text-2xl font-bold">Welcome back, Dr. Mensah 👋</h3>
+            <h3 className="text-2xl font-bold">
+              Welcome back, {user?.firstName} {user?.lastName} 👋
+            </h3>
             <p className="text-muted-foreground">
               Let's create something brilliant today. Your AI co-pilot is ready.
             </p>
@@ -280,8 +269,8 @@ export default function DashboardPage() {
                           exam.status === "Scheduled"
                             ? "bg-blue-100 text-blue-800 hover:bg-blue-100"
                             : exam.status === "Draft"
-                            ? "bg-slate-100 text-slate-800 hover:bg-slate-100"
-                            : "bg-green-100 text-green-800 hover:bg-green-100"
+                              ? "bg-slate-100 text-slate-800 hover:bg-slate-100"
+                              : "bg-green-100 text-green-800 hover:bg-green-100"
                         }
                       >
                         {exam.status}
@@ -349,7 +338,7 @@ const recentActivities = [
     bgColor: "bg-amber-100",
     iconColor: "text-amber-600",
   },
-]
+];
 
 const aiSuggestions = [
   {
@@ -361,14 +350,16 @@ const aiSuggestions = [
   {
     title: "Physics Problem Set",
     type: "Problems",
-    preview: "10 calculation-based problems on kinematics and Newton's laws with step-by-step solutions.",
+    preview:
+      "10 calculation-based problems on kinematics and Newton's laws with step-by-step solutions.",
   },
   {
     title: "Literature Essay Prompts",
     type: "Prompts",
-    preview: "5 analytical essay prompts on Shakespeare's Macbeth focusing on themes of ambition and moral corruption.",
+    preview:
+      "5 analytical essay prompts on Shakespeare's Macbeth focusing on themes of ambition and moral corruption.",
   },
-]
+];
 
 const chartData = [
   {
@@ -395,7 +386,7 @@ const chartData = [
     month: "Jun",
     completion: 92,
   },
-]
+];
 
 const mostMissedQuestions = [
   {
@@ -410,7 +401,7 @@ const mostMissedQuestions = [
     text: "Analyze the theme of power in Macbeth",
     percentage: 42,
   },
-]
+];
 
 const upcomingExams = [
   {
@@ -437,4 +428,4 @@ const upcomingExams = [
     students: 18,
     status: "Completed",
   },
-]
+];
