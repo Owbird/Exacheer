@@ -14,3 +14,35 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+enum AcademicLevel {
+  bachelor
+  master
+  phd
+  postdoc
+}
+
+model Profile {
+  id            String        @id @default(cuid())
+  userId        String        @unique
+  institution   String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  programs      Program[]
+  academicLevel AcademicLevel?
+}
+
+model Program {
+  id        String   @id @default(cuid())
+  name      String
+  courses   Course[]
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+}
+
+model Course {
+  id        String   @id @default(cuid())
+  name      String
+  Program   Program? @relation(fields: [programId], references: [id])
+  programId String?
+}

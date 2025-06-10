@@ -14,6 +14,7 @@ import {
   LogOut,
   Settings,
   Sparkles,
+  User2,
   Users,
 } from "lucide-react";
 import { useMobile } from "@/hooks/use-mobile";
@@ -167,5 +168,10 @@ const sidebarItems = [
     label: "AI Generator",
     icon: Sparkles,
     href: "/dashboard/ai-generator",
+  },
+  {
+    label: "Profile",
+    icon: User2,
+    href: "/dashboard/profile",
   },
 ];
