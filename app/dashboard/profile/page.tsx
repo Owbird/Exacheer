@@ -54,6 +54,8 @@ import { useUser } from "@clerk/nextjs";
 import { Course, Program } from "@/types";
 import { updateProile } from "@/app/actions/user";
 import { AcademicLevel } from "@/lib/generated/prisma";
+import { useEffect } from "react";
+import { getProfile } from "@/app/actions/user";
 
 export default function ProfilePage() {
   const [institution, setInstitution] = useState("University of Ghana");
@@ -131,6 +133,20 @@ export default function ProfilePage() {
 
     alert("Saved!");
   };
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user?.id) return;
+      const profile = await getProfile(user.id);
+      if (profile) {
+        setInstitution(profile.institution || "");
+        setPrograms(profile.programs || []);
+        setAcademicLevel(profile.academicLevel);
+      }
+    };
+    fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   if (!isLoaded) return <div>Loading...</div>;
 

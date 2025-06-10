@@ -4,6 +4,19 @@ import { AcademicLevel } from "@/lib/generated/prisma";
 import Prisma from "@/lib/prisma";
 import { Program } from "@/types";
 
+export async function getProfile(userId: string) {
+  return Prisma.profile.findUnique({
+    where: { userId },
+    include: {
+      programs: {
+        include: {
+          courses: true,
+        },
+      },
+    },
+  });
+}
+
 export async function updateProile({
   institution,
   programs,
