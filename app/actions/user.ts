@@ -37,9 +37,13 @@ export async function updateProile({
       academicLevel,
       programs: {
         create: programs.map((p) => ({
+          userId: userId!,
           name: p.name,
           courses: {
-            create: p.courses.map((c) => ({ name: c.name })),
+            create: p.courses.map((c) => ({
+              name: c.name,
+              userId: userId!,
+            })),
           },
         })),
       },
@@ -51,9 +55,10 @@ export async function updateProile({
       academicLevel,
       programs: {
         create: programs.map((p) => ({
+          userId: userId!,
           name: p.name,
           courses: {
-            create: p.courses.map((c) => ({ name: c.name })),
+            create: p.courses.map((c) => ({ name: c.name, userId: userId! })),
           },
         })),
       },
