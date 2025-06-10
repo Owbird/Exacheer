@@ -51,7 +51,7 @@ export default function Home() {
           </nav>
 
           <div>
-            <Link href="/dashboard">
+            <Link href="/sign-in">
               <Button className="bg-purple-600 hover:bg-purple-700">
                 Get Started
               </Button>
