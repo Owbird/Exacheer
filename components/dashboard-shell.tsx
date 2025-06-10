@@ -17,6 +17,7 @@ import {
   Users,
 } from "lucide-react";
 import { useMobile } from "@/hooks/use-mobile";
+import { usePathname } from "next/navigation";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -25,6 +26,9 @@ interface DashboardShellProps {
 export function DashboardShell({ children }: DashboardShellProps) {
   const isMobile = useMobile();
   const [sidebarOpen, setSidebarOpen] = React.useState(!isMobile);
+
+  const pathname = usePathname()
+  const isActive = (href: string) => pathname === href;
 
   React.useEffect(() => {
     setSidebarOpen(!isMobile);
@@ -53,10 +57,10 @@ export function DashboardShell({ children }: DashboardShellProps) {
             {sidebarItems.map((item, index) => (
               <Button
                 key={index}
-                variant={item.active ? "secondary" : "ghost"}
+                variant={ isActive(item.href) ? "secondary" : "ghost"}
                 className={cn(
                   "justify-start gap-3",
-                  item.active &&
+                  isActive(item.href) &&
                     "bg-purple-50 text-purple-700 hover:bg-purple-100 hover:text-purple-800",
                 )}
                 asChild
@@ -148,24 +152,20 @@ const sidebarItems = [
     label: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
-    active: true,
   },
   {
     label: "Create Exam",
     icon: FileText,
     href: "/dashboard/create-exam",
-    active: false,
   },
   {
     label: "Question Bank",
     icon: BookOpen,
     href: "/dashboard/question-bank",
-    active: false,
   },
   {
     label: "AI Generator",
     icon: Sparkles,
     href: "/dashboard/ai-generator",
-    active: false,
   },
 ];
