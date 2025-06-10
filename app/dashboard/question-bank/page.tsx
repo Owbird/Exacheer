@@ -1,23 +1,36 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { DashboardShell } from "@/components/dashboard-shell"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent } from "@/components/ui/card"
+import { useState } from "react";
+import { DashboardShell } from "@/components/dashboard-shell";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   Dialog,
   DialogContent,
@@ -26,7 +39,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Download,
   Edit,
@@ -41,35 +54,45 @@ import {
   Sparkles,
   Trash2,
   X,
-} from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+} from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+
+const courses = [
+  "All Subjects",
+  "Biology",
+  "Physics",
+  "Chemistry",
+  "Mathematics",
+  "Literature",
+];
+const difficultyLevels = ["Easy", "Medium", "Hard"];
 
 function OptionsInput() {
-  const [options, setOptions] = useState<string[]>(["", ""])
-  const [correctIndex, setCorrectIndex] = useState<number>(0)
+  const [options, setOptions] = useState<string[]>(["", ""]);
+  const [correctIndex, setCorrectIndex] = useState<number>(0);
 
   const handleOptionChange = (index: number, value: string) => {
-    const newOptions = [...options]
-    newOptions[index] = value
-    setOptions(newOptions)
-  }
+    const newOptions = [...options];
+    newOptions[index] = value;
+    setOptions(newOptions);
+  };
 
-  const addOption = () => setOptions([...options, ""])
+  const addOption = () => setOptions([...options, ""]);
 
   const removeOption = (index: number) => {
     if (options.length > 2) {
-      const newOptions = options.filter((_, i) => i !== index)
-      setOptions(newOptions)
+      const newOptions = options.filter((_, i) => i !== index);
+      setOptions(newOptions);
       if (correctIndex === index) {
-        setCorrectIndex(0)
+        setCorrectIndex(0);
       } else if (correctIndex > index) {
-        setCorrectIndex(correctIndex - 1)
+        setCorrectIndex(correctIndex - 1);
       }
     }
-  }
+  };
 
   return (
     <div className="space-y-2">
@@ -88,7 +111,12 @@ function OptionsInput() {
           />
           <span className="text-xs text-muted-foreground">Correct</span>
           {options.length > 2 && (
-            <Button type="button" variant="ghost" size="icon" onClick={() => removeOption(idx)}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => removeOption(idx)}
+            >
               <X className="h-4 w-4" />
             </Button>
           )}
@@ -98,25 +126,25 @@ function OptionsInput() {
         Add Option
       </Button>
     </div>
-  )
+  );
 }
 
 export default function QuestionBankPage() {
-  const [viewMode, setViewMode] = useState<"table" | "grid">("table")
-  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([])
-  const [filterOpen, setFilterOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
+  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const toggleQuestionSelection = (id: string) => {
     if (selectedQuestions.includes(id)) {
-      setSelectedQuestions(selectedQuestions.filter((qId) => qId !== id))
+      setSelectedQuestions(selectedQuestions.filter((qId) => qId !== id));
     } else {
-      setSelectedQuestions([...selectedQuestions, id])
+      setSelectedQuestions([...selectedQuestions, id]);
     }
-  }
+  };
 
   const clearSelection = () => {
-    setSelectedQuestions([])
-  }
+    setSelectedQuestions([]);
+  };
 
   return (
     <DashboardShell>
@@ -129,7 +157,11 @@ export default function QuestionBankPage() {
               <div className="hidden md:flex items-center gap-2">
                 <div className="relative">
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input type="search" placeholder="Search topics, tags or questions..." className="w-[300px] pl-8" />
+                  <Input
+                    type="search"
+                    placeholder="Search topics, tags or questions..."
+                    className="w-[300px] pl-8"
+                  />
                 </div>
                 <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
                   <SheetTrigger asChild>
@@ -140,7 +172,9 @@ export default function QuestionBankPage() {
                   <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                     <SheetHeader>
                       <SheetTitle>Filters</SheetTitle>
-                      <SheetDescription>Narrow down questions by applying filters</SheetDescription>
+                      <SheetDescription>
+                        Narrow down questions by applying filters
+                      </SheetDescription>
                     </SheetHeader>
                     <ScrollArea className="h-[calc(100vh-120px)] py-4">
                       <div className="space-y-6 pr-6">
@@ -151,28 +185,20 @@ export default function QuestionBankPage() {
                               <SelectValue placeholder="All Subjects" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="all">All Subjects</SelectItem>
-                              <SelectItem value="biology">Biology</SelectItem>
-                              <SelectItem value="physics">Physics</SelectItem>
-                              <SelectItem value="chemistry">Chemistry</SelectItem>
-                              <SelectItem value="mathematics">Mathematics</SelectItem>
-                              <SelectItem value="literature">Literature</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label>Topic</Label>
-                          <Select>
-                            <SelectTrigger>
-                              <SelectValue placeholder="All Topics" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="all">All Topics</SelectItem>
-                              <SelectItem value="cellular-respiration">Cellular Respiration</SelectItem>
-                              <SelectItem value="photosynthesis">Photosynthesis</SelectItem>
-                              <SelectItem value="genetics">Genetics</SelectItem>
-                              <SelectItem value="evolution">Evolution</SelectItem>
+                              {courses.map((course) => (
+                                <SelectItem
+                                  key={course
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}
+                                  value={
+                                    course === "All Subjects"
+                                      ? "all"
+                                      : course.toLowerCase()
+                                  }
+                                >
+                                  {course}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </div>
@@ -180,20 +206,13 @@ export default function QuestionBankPage() {
                         <div className="space-y-2">
                           <Label>Difficulty</Label>
                           <div className="flex flex-wrap gap-2 pt-2">
-                            {["Easy", "Medium", "Hard"].map((difficulty) => (
-                              <Badge key={difficulty} variant="outline" className="cursor-pointer hover:bg-slate-100">
+                            {difficultyLevels.map((difficulty) => (
+                              <Badge
+                                key={difficulty}
+                                variant="outline"
+                                className="cursor-pointer hover:bg-slate-100"
+                              >
                                 {difficulty}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label>Tags</Label>
-                          <div className="flex flex-wrap gap-2 pt-2">
-                            {["MCQ", "Essay", "Short Answer", "Diagram", "Calculation"].map((tag) => (
-                              <Badge key={tag} variant="outline" className="cursor-pointer hover:bg-slate-100">
-                                {tag}
                               </Badge>
                             ))}
                           </div>
@@ -226,7 +245,9 @@ export default function QuestionBankPage() {
 
                         <div className="flex justify-between pt-4">
                           <Button variant="outline">Reset</Button>
-                          <Button onClick={() => setFilterOpen(false)}>Apply Filters</Button>
+                          <Button onClick={() => setFilterOpen(false)}>
+                            Apply Filters
+                          </Button>
                         </div>
                       </div>
                     </ScrollArea>
@@ -262,12 +283,18 @@ export default function QuestionBankPage() {
                 <DialogContent className="sm:max-w-[600px]">
                   <DialogHeader>
                     <DialogTitle>Create New Question</DialogTitle>
-                    <DialogDescription>Add a new question to your question bank</DialogDescription>
+                    <DialogDescription>
+                      Add a new question to your question bank
+                    </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
                     <div className="space-y-2">
                       <Label htmlFor="question">Question Text</Label>
-                      <Textarea id="question" placeholder="Enter your question here..." className="min-h-[100px]" />
+                      <Textarea
+                        id="question"
+                        placeholder="Enter your question here..."
+                        className="min-h-[100px]"
+                      />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
@@ -277,10 +304,18 @@ export default function QuestionBankPage() {
                             <SelectValue placeholder="Select subject" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="biology">Biology</SelectItem>
-                            <SelectItem value="physics">Physics</SelectItem>
-                            <SelectItem value="chemistry">Chemistry</SelectItem>
-                            <SelectItem value="mathematics">Mathematics</SelectItem>
+                            {courses.map((course) => (
+                              <SelectItem
+                                key={course.toLowerCase().replace(/\s+/g, "-")}
+                                value={
+                                  course === "All Subjects"
+                                    ? "all"
+                                    : course.toLowerCase()
+                                }
+                              >
+                                {course}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
@@ -291,16 +326,18 @@ export default function QuestionBankPage() {
                             <SelectValue placeholder="Select difficulty" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="easy">Easy</SelectItem>
-                            <SelectItem value="medium">Medium</SelectItem>
-                            <SelectItem value="hard">Hard</SelectItem>
+                            {difficultyLevels.map((difficulty) => (
+                              <Badge
+                                key={difficulty}
+                                variant="outline"
+                                className="cursor-pointer hover:bg-slate-100"
+                              >
+                                {difficulty}
+                              </Badge>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="tags">Tags</Label>
-                      <Input id="tags" placeholder="Add tags separated by commas" />
                     </div>
                     <div className="space-y-2">
                       <Label>Options</Label>
@@ -309,7 +346,9 @@ export default function QuestionBankPage() {
                   </div>
                   <DialogFooter>
                     <Button variant="outline">Cancel</Button>
-                    <Button className="bg-purple-600 hover:bg-purple-700">Save Question</Button>
+                    <Button className="bg-purple-600 hover:bg-purple-700">
+                      Save Question
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -319,14 +358,23 @@ export default function QuestionBankPage() {
           {/* Mobile Search */}
           <div className="md:hidden relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search topics, tags or questions..." className="w-full pl-8" />
+            <Input
+              type="search"
+              placeholder="Search topics, tags or questions..."
+              className="w-full pl-8"
+            />
           </div>
 
           {/* Bulk Actions Bar */}
           {selectedQuestions.length > 0 && (
             <div className="flex items-center justify-between bg-white p-2 rounded-md border shadow-sm">
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={clearSelection}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground"
+                  onClick={clearSelection}
+                >
                   <X className="mr-1 h-4 w-4" />
                   Clear selection ({selectedQuestions.length})
                 </Button>
@@ -365,31 +413,51 @@ export default function QuestionBankPage() {
                     <tr className="border-b bg-slate-50">
                       <th className="h-12 w-12 px-4">
                         <Checkbox
-                          checked={selectedQuestions.length === questions.length && questions.length > 0}
+                          checked={
+                            selectedQuestions.length === questions.length &&
+                            questions.length > 0
+                          }
                           onCheckedChange={(checked) => {
                             if (checked) {
-                              setSelectedQuestions(questions.map((q) => q.id))
+                              setSelectedQuestions(questions.map((q) => q.id));
                             } else {
-                              setSelectedQuestions([])
+                              setSelectedQuestions([]);
                             }
                           }}
                         />
                       </th>
-                      <th className="h-12 px-4 text-left align-middle font-medium">Question</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium">Subject / Topic</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium">Difficulty</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium">Status</th>
-                      <th className="h-12 px-4 text-left align-middle font-medium">Date</th>
-                      <th className="h-12 w-[100px] px-4 text-left align-middle font-medium">Actions</th>
+                      <th className="h-12 px-4 text-left align-middle font-medium">
+                        Question
+                      </th>
+                      <th className="h-12 px-4 text-left align-middle font-medium">
+                        Subject / Topic
+                      </th>
+                      <th className="h-12 px-4 text-left align-middle font-medium">
+                        Difficulty
+                      </th>
+                      <th className="h-12 px-4 text-left align-middle font-medium">
+                        Status
+                      </th>
+                      <th className="h-12 px-4 text-left align-middle font-medium">
+                        Date
+                      </th>
+                      <th className="h-12 w-[100px] px-4 text-left align-middle font-medium">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {questions.map((question) => (
-                      <tr key={question.id} className="border-b hover:bg-slate-50">
+                      <tr
+                        key={question.id}
+                        className="border-b hover:bg-slate-50"
+                      >
                         <td className="p-4">
                           <Checkbox
                             checked={selectedQuestions.includes(question.id)}
-                            onCheckedChange={() => toggleQuestionSelection(question.id)}
+                            onCheckedChange={() =>
+                              toggleQuestionSelection(question.id)
+                            }
                           />
                         </td>
                         <td className="p-4 align-middle">
@@ -397,13 +465,19 @@ export default function QuestionBankPage() {
                             {question.isAIGenerated && (
                               <Sparkles className="h-4 w-4 text-amber-500 mt-1 flex-shrink-0" />
                             )}
-                            <span className="line-clamp-2">{question.text}</span>
+                            <span className="line-clamp-2">
+                              {question.text}
+                            </span>
                           </div>
                         </td>
                         <td className="p-4 align-middle">
                           <div className="flex flex-col gap-1">
-                            <span className="font-medium">{question.subject}</span>
-                            <span className="text-xs text-muted-foreground">{question.topic}</span>
+                            <span className="font-medium">
+                              {question.subject}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {question.topic}
+                            </span>
                           </div>
                         </td>
                         <td className="p-4 align-middle">
@@ -412,8 +486,8 @@ export default function QuestionBankPage() {
                               question.difficulty === "Easy"
                                 ? "bg-green-100 text-green-800 hover:bg-green-100"
                                 : question.difficulty === "Medium"
-                                  ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
-                                  : "bg-red-100 text-red-800 hover:bg-red-100"
+                                ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
+                                : "bg-red-100 text-red-800 hover:bg-red-100"
                             }
                           >
                             {question.difficulty}
@@ -425,7 +499,9 @@ export default function QuestionBankPage() {
                         <td className="p-4 align-middle">
                           <div className="flex flex-col">
                             <span className="text-xs">{question.date}</span>
-                            <span className="text-xs text-muted-foreground">{question.time}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {question.time}
+                            </span>
                           </div>
                         </td>
                         <td className="p-4 align-middle">
@@ -447,7 +523,9 @@ export default function QuestionBankPage() {
                                 <DropdownMenuItem>Duplicate</DropdownMenuItem>
                                 <DropdownMenuItem>Share</DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                                <DropdownMenuItem className="text-red-600">
+                                  Delete
+                                </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
@@ -467,26 +545,32 @@ export default function QuestionBankPage() {
                       <div className="flex items-start gap-2 mb-3">
                         <Checkbox
                           checked={selectedQuestions.includes(question.id)}
-                          onCheckedChange={() => toggleQuestionSelection(question.id)}
+                          onCheckedChange={() =>
+                            toggleQuestionSelection(question.id)
+                          }
                           className="mt-1"
                         />
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            {question.isAIGenerated && <Sparkles className="h-4 w-4 text-amber-500" />}
+                            {question.isAIGenerated && (
+                              <Sparkles className="h-4 w-4 text-amber-500" />
+                            )}
                             <Badge
                               className={
                                 question.difficulty === "Easy"
                                   ? "bg-green-100 text-green-800 hover:bg-green-100"
                                   : question.difficulty === "Medium"
-                                    ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
-                                    : "bg-red-100 text-red-800 hover:bg-red-100"
+                                  ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
+                                  : "bg-red-100 text-red-800 hover:bg-red-100"
                               }
                             >
                               {question.difficulty}
                             </Badge>
                             <Badge variant="outline">{question.status}</Badge>
                           </div>
-                          <p className="line-clamp-3 text-sm">{question.text}</p>
+                          <p className="line-clamp-3 text-sm">
+                            {question.text}
+                          </p>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-1 mb-3">
@@ -497,7 +581,11 @@ export default function QuestionBankPage() {
                           {question.topic}
                         </Badge>
                         {question.tags.map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="text-xs"
+                          >
                             {tag}
                           </Badge>
                         ))}
@@ -526,7 +614,9 @@ export default function QuestionBankPage() {
                           <DropdownMenuItem>Duplicate</DropdownMenuItem>
                           <DropdownMenuItem>Share</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            Delete
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
@@ -558,68 +648,9 @@ export default function QuestionBankPage() {
           </div>
           <h3 className="text-xl font-semibold mb-2">No questions here yet</h3>
           <p className="text-muted-foreground mb-6 text-center max-w-md">
-            Your question bank is empty. Start by adding your first question or generate some with AI.
+            Your question bank is empty. Start by adding your first question or
+            generate some with AI.
           </p>
-          <div className="flex gap-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline">Add Your First Question</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px]">
-                <DialogHeader>
-                  <DialogTitle>Create New Question</DialogTitle>
-                  <DialogDescription>Add a new question to your question bank</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="question">Question Text</Label>
-                    <Textarea id="question" placeholder="Enter your question here..." className="min-h-[100px]" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
-                      <Select>
-                        <SelectTrigger id="subject">
-                          <SelectValue placeholder="Select subject" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="biology">Biology</SelectItem>
-                          <SelectItem value="physics">Physics</SelectItem>
-                          <SelectItem value="chemistry">Chemistry</SelectItem>
-                          <SelectItem value="mathematics">Mathematics</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="difficulty">Difficulty</Label>
-                      <Select>
-                        <SelectTrigger id="difficulty">
-                          <SelectValue placeholder="Select difficulty" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="easy">Easy</SelectItem>
-                          <SelectItem value="medium">Medium</SelectItem>
-                          <SelectItem value="hard">Hard</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="tags">Tags</Label>
-                    <Input id="tags" placeholder="Add tags separated by commas" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button variant="outline">Cancel</Button>
-                  <Button className="bg-purple-600 hover:bg-purple-700">Save Question</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Button className="bg-purple-600 hover:bg-purple-700">
-              <Sparkles className="mr-2 h-4 w-4" />
-              Generate with AI
-            </Button>
-          </div>
         </div>
       )}
 
@@ -634,7 +665,9 @@ export default function QuestionBankPage() {
         <SheetContent className="w-full sm:max-w-[500px]">
           <SheetHeader>
             <SheetTitle>AI Question Generator</SheetTitle>
-            <SheetDescription>Generate high-quality questions with AI assistance</SheetDescription>
+            <SheetDescription>
+              Generate high-quality questions with AI assistance
+            </SheetDescription>
           </SheetHeader>
           <div className="space-y-6 py-6">
             <div className="space-y-2">
@@ -644,11 +677,16 @@ export default function QuestionBankPage() {
                   <SelectValue placeholder="Select subject" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="biology">Biology</SelectItem>
-                  <SelectItem value="physics">Physics</SelectItem>
-                  <SelectItem value="chemistry">Chemistry</SelectItem>
-                  <SelectItem value="mathematics">Mathematics</SelectItem>
-                  <SelectItem value="literature">Literature</SelectItem>
+                  {courses.map((course) => (
+                    <SelectItem
+                      key={course.toLowerCase().replace(/\s+/g, "-")}
+                      value={
+                        course === "All Subjects" ? "all" : course.toLowerCase()
+                      }
+                    >
+                      {course}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -665,10 +703,14 @@ export default function QuestionBankPage() {
                   <SelectValue placeholder="Select difficulty" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="easy">Easy</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="hard">Hard</SelectItem>
-                  <SelectItem value="mixed">Mixed Levels</SelectItem>
+                  {difficultyLevels.map((level) => (
+                    <SelectItem
+                      key={level.toLowerCase()}
+                      value={level.toLowerCase()}
+                    >
+                      {level}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -704,7 +746,9 @@ export default function QuestionBankPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="short">Short (1-2 sentences)</SelectItem>
+                        <SelectItem value="short">
+                          Short (1-2 sentences)
+                        </SelectItem>
                         <SelectItem value="paragraph">Paragraph</SelectItem>
                       </SelectContent>
                     </Select>
@@ -719,7 +763,9 @@ export default function QuestionBankPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="analytical">Analytical</SelectItem>
-                        <SelectItem value="argumentative">Argumentative</SelectItem>
+                        <SelectItem value="argumentative">
+                          Argumentative
+                        </SelectItem>
                         <SelectItem value="expository">Expository</SelectItem>
                       </SelectContent>
                     </Select>
@@ -757,7 +803,7 @@ export default function QuestionBankPage() {
         </SheetContent>
       </Sheet>
     </DashboardShell>
-  )
+  );
 }
 
 // Sample data
@@ -822,7 +868,7 @@ const questions = [
     isAIGenerated: true,
     tags: ["Algebra", "Equations", "Quadratic"],
   },
-]
+];
 
 // Empty state icon
 function BookIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -841,5 +887,5 @@ function BookIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
     </svg>
-  )
+  );
 }
