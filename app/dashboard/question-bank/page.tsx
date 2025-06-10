@@ -47,6 +47,60 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 
+function OptionsInput() {
+  const [options, setOptions] = useState<string[]>(["", ""])
+  const [correctIndex, setCorrectIndex] = useState<number>(0)
+
+  const handleOptionChange = (index: number, value: string) => {
+    const newOptions = [...options]
+    newOptions[index] = value
+    setOptions(newOptions)
+  }
+
+  const addOption = () => setOptions([...options, ""])
+
+  const removeOption = (index: number) => {
+    if (options.length > 2) {
+      const newOptions = options.filter((_, i) => i !== index)
+      setOptions(newOptions)
+      if (correctIndex === index) {
+        setCorrectIndex(0)
+      } else if (correctIndex > index) {
+        setCorrectIndex(correctIndex - 1)
+      }
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      {options.map((option, idx) => (
+        <div key={idx} className="flex items-center gap-2">
+          <Input
+            value={option}
+            onChange={(e) => handleOptionChange(idx, e.target.value)}
+            placeholder={`Option ${idx + 1}`}
+          />
+          <Checkbox
+            checked={correctIndex === idx}
+            onCheckedChange={() => setCorrectIndex(idx)}
+            aria-label={`Mark option ${idx + 1} as correct`}
+            className="ml-2"
+          />
+          <span className="text-xs text-muted-foreground">Correct</span>
+          {options.length > 2 && (
+            <Button type="button" variant="ghost" size="icon" onClick={() => removeOption(idx)}>
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      ))}
+      <Button type="button" variant="outline" size="sm" onClick={addOption}>
+        Add Option
+      </Button>
+    </div>
+  )
+}
+
 export default function QuestionBankPage() {
   const [viewMode, setViewMode] = useState<"table" | "grid">("table")
   const [selectedQuestions, setSelectedQuestions] = useState<string[]>([])
@@ -247,6 +301,10 @@ export default function QuestionBankPage() {
                     <div className="space-y-2">
                       <Label htmlFor="tags">Tags</Label>
                       <Input id="tags" placeholder="Add tags separated by commas" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Options</Label>
+                      <OptionsInput />
                     </div>
                   </div>
                   <DialogFooter>
