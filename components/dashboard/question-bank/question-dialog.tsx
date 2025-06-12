@@ -23,6 +23,7 @@ import OptionsInput from "./options-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formSchema, FormValues } from "@/schema/dashboard/question-bank";
+import { addQuestion } from "@/app/actions/question-bank";
 
 export function NewQuestionDialog({
   courses,
@@ -35,9 +36,9 @@ export function NewQuestionDialog({
     resolver: zodResolver(formSchema),
     defaultValues: {
       question: "",
-      subject: "",
+      course: "",
       difficulty: "",
-      options: ["",""],
+      options: ["", ""],
       correctIndex: 0,
     },
   });
@@ -49,8 +50,20 @@ export function NewQuestionDialog({
     formState: { errors },
   } = methods;
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data: FormValues) => {
+    alert("Submitting question...");
+
+    await addQuestion(data);
+
+    methods.reset({
+      question: "",
+      course: "",
+      difficulty: "",
+      options: ["", ""],
+      correctIndex: 0,
+    });
+
+    alert("Question submitted successfully!");
   };
 
   return (
@@ -89,18 +102,15 @@ export function NewQuestionDialog({
                 <Label htmlFor="subject">Subject</Label>
                 <Controller
                   control={control}
-                  name="subject"
+                  name="course"
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger id="subject">
-                        <SelectValue placeholder="Select subject" />
+                      <SelectTrigger id="course">
+                        <SelectValue placeholder="Select course" />
                       </SelectTrigger>
                       <SelectContent>
-                        {courses.map(({ name }) => (
-                          <SelectItem
-                            key={name.toLowerCase()}
-                            value={name.toLowerCase()}
-                          >
+                        {courses.map(({ name, id }) => (
+                          <SelectItem key={id} value={id}>
                             {name}
                           </SelectItem>
                         ))}

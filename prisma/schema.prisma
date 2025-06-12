@@ -43,9 +43,23 @@ model Program {
 }
 
 model Course {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  Program   Program? @relation(fields: [programId], references: [id])
+  Program   Program?   @relation(fields: [programId], references: [id])
+  Questions Question[]
   programId String?
   userId    String
+}
+
+model Question {
+  userId       String
+  id           String   @id @default(cuid())
+  question     String
+  difficulty   String
+  options      String[]
+  correctIndex Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Course       Course?  @relation(fields: [courseId], references: [id])
+  courseId     String?
 }
