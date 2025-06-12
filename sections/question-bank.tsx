@@ -32,15 +32,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   Download,
   Edit,
   Eye,
@@ -60,67 +51,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { UsersCourse } from "@/types";
+import { NewQuestionDialog } from "@/components/dashboard/question-bank/question-dialog";
 
 const difficultyLevels = ["Easy", "Medium", "Hard"];
-
-function OptionsInput() {
-  const [options, setOptions] = useState<string[]>(["", ""]);
-  const [correctIndex, setCorrectIndex] = useState<number>(0);
-
-  const handleOptionChange = (index: number, value: string) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
-  };
-
-  const addOption = () => setOptions([...options, ""]);
-
-  const removeOption = (index: number) => {
-    if (options.length > 2) {
-      const newOptions = options.filter((_, i) => i !== index);
-      setOptions(newOptions);
-      if (correctIndex === index) {
-        setCorrectIndex(0);
-      } else if (correctIndex > index) {
-        setCorrectIndex(correctIndex - 1);
-      }
-    }
-  };
-
-  return (
-    <div className="space-y-2">
-      {options.map((option, idx) => (
-        <div key={idx} className="flex items-center gap-2">
-          <Input
-            value={option}
-            onChange={(e) => handleOptionChange(idx, e.target.value)}
-            placeholder={`Option ${idx + 1}`}
-          />
-          <Checkbox
-            checked={correctIndex === idx}
-            onCheckedChange={() => setCorrectIndex(idx)}
-            aria-label={`Mark option ${idx + 1} as correct`}
-            className="ml-2"
-          />
-          <span className="text-xs text-muted-foreground">Correct</span>
-          {options.length > 2 && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => removeOption(idx)}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
-      ))}
-      <Button type="button" variant="outline" size="sm" onClick={addOption}>
-        Add Option
-      </Button>
-    </div>
-  );
-}
 
 interface Props {
   courses: UsersCourse[];
@@ -265,80 +198,10 @@ export default function QuestionBankPage({ courses }: Props) {
                 </Button>
               </div>
 
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="bg-purple-600 hover:bg-purple-700">
-                    <Plus className="mr-2 h-4 w-4" /> New Question
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px]">
-                  <DialogHeader>
-                    <DialogTitle>Create New Question</DialogTitle>
-                    <DialogDescription>
-                      Add a new question to your question bank
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="question">Question Text</Label>
-                      <Textarea
-                        id="question"
-                        placeholder="Enter your question here..."
-                        className="min-h-[100px]"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="subject">Subject</Label>
-                        <Select>
-                          <SelectTrigger id="subject">
-                            <SelectValue placeholder="Select subject" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {courses.map(({ name }) => (
-                              <SelectItem
-                                key={name.toLowerCase().replace(/\s+/g, "-")}
-                                value={name.toLowerCase()}
-                              >
-                                {name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="difficulty">Difficulty</Label>
-                        <Select>
-                          <SelectTrigger id="difficulty">
-                            <SelectValue placeholder="Select difficulty" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {difficultyLevels.map((difficulty) => (
-                              <Badge
-                                key={difficulty}
-                                variant="outline"
-                                className="cursor-pointer hover:bg-slate-100"
-                              >
-                                {difficulty}
-                              </Badge>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Options</Label>
-                      <OptionsInput />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button variant="outline">Cancel</Button>
-                    <Button className="bg-purple-600 hover:bg-purple-700">
-                      Save Question
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              <NewQuestionDialog
+                courses={courses}
+                difficultyLevels={difficultyLevels}
+              />
             </div>
           </div>
 
@@ -473,8 +336,8 @@ export default function QuestionBankPage({ courses }: Props) {
                               question.difficulty === "Easy"
                                 ? "bg-green-100 text-green-800 hover:bg-green-100"
                                 : question.difficulty === "Medium"
-                                  ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
-                                  : "bg-red-100 text-red-800 hover:bg-red-100"
+                                ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
+                                : "bg-red-100 text-red-800 hover:bg-red-100"
                             }
                           >
                             {question.difficulty}
@@ -547,8 +410,8 @@ export default function QuestionBankPage({ courses }: Props) {
                                 question.difficulty === "Easy"
                                   ? "bg-green-100 text-green-800 hover:bg-green-100"
                                   : question.difficulty === "Medium"
-                                    ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
-                                    : "bg-red-100 text-red-800 hover:bg-red-100"
+                                  ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
+                                  : "bg-red-100 text-red-800 hover:bg-red-100"
                               }
                             >
                               {question.difficulty}
