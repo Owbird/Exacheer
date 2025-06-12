@@ -18,7 +18,9 @@ import {
   Users,
 } from "lucide-react";
 import { useMobile } from "@/hooks/use-mobile";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import { getProfile } from "@/app/actions/user";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -28,12 +30,34 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const isMobile = useMobile();
   const [sidebarOpen, setSidebarOpen] = React.useState(!isMobile);
 
-  const pathname = usePathname()
+  const { user } = useUser();
+
+  const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
 
   React.useEffect(() => {
     setSidebarOpen(!isMobile);
   }, [isMobile]);
+
+  const checkProfile = async () => {
+    const profile = await getProfile(user?.id!);
+
+    if (
+      !profile?.institution ||
+      !profile.programs ||
+      profile.programs.length === 0
+    ) {
+      redirect(`/dashboard/profile`);
+    }
+  };
+
+  React.useEffect(() => {
+    if (user) {
+      if (pathname.includes("/dashboard") && pathname != "/dashboard/profile") {
+        checkProfile();
+      }
+    }
+  }, [pathname, user]);
 
   return (
     <div className="flex min-h-screen bg-slate-50">
@@ -58,7 +82,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
             {sidebarItems.map((item, index) => (
               <Button
                 key={index}
-                variant={ isActive(item.href) ? "secondary" : "ghost"}
+                variant={isActive(item.href) ? "secondary" : "ghost"}
                 className={cn(
                   "justify-start gap-3",
                   isActive(item.href) &&
