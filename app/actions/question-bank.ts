@@ -31,6 +31,7 @@ export async function addQuestion(data: FormValues) {
       difficulty: data.difficulty,
       options: data.options,
       correctIndex: data.correctIndex,
+      aiGenerated: data.aiGenerated,
       userId,
     },
   });

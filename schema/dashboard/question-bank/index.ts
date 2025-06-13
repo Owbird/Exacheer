@@ -8,4 +8,4 @@ export const formSchema = z.object({
   correctIndex: z.number().int().min(0),
 });
 
-export type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema> & { aiGenerated: boolean };

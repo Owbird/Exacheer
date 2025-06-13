@@ -132,34 +132,51 @@ export default function QuestionBankPage({ courses, questions }: Props) {
         <div className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {questions.map((question) => (
-              <Card key={question.id} className="overflow-hidden flex flex-col h-full">
+              <Card
+                key={question.id}
+                style={{
+                  border: "1.5px solid",
+                  borderColor: question.aiGenerated ? "#1d4ed8" : "#e2e8f0",
+                }}
+                className={`overflow-hidden flex flex-col h-full border`}
+              >
                 <CardContent className="flex flex-col flex-1 p-0">
                   <div className="flex-1 flex flex-col justify-between p-4">
                     <div>
                       <div className="flex items-start gap-3 mb-3">
                         <Checkbox
                           checked={selectedQuestions.includes(question.id)}
-                          onCheckedChange={() => toggleQuestionSelection(question.id)}
+                          onCheckedChange={() =>
+                            toggleQuestionSelection(question.id)
+                          }
                           className="mt-1"
                         />
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            {question.aiGenerated && (
-                              <Sparkles className="h-4 w-4 text-amber-500" />
-                            )}
                             <Badge
                               className={
-                                question.difficulty === "Easy"
+                                question.difficulty === "easy"
                                   ? "bg-green-100 text-green-800 hover:bg-green-100"
-                                  : question.difficulty === "Medium"
+                                  : question.difficulty === "medium"
                                   ? "bg-amber-100 text-amber-800 hover:bg-amber-100"
                                   : "bg-red-100 text-red-800 hover:bg-red-100"
                               }
                             >
                               {question.difficulty}
                             </Badge>
+                            {question.aiGenerated && (
+                              <Badge
+                                className="bg-blue-100 text-blue-800 hover:bg-blue-100"
+                                variant="outline"
+                              >
+                                AI
+                                <Sparkles className="ml-2 h-4 w-4" />
+                              </Badge>
+                            )}
                           </div>
-                          <p className="line-clamp-3 text-sm">{question.question}</p>
+                          <p className="line-clamp-3 text-sm">
+                            {question.question}
+                          </p>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-1 mb-3">
@@ -221,8 +238,6 @@ export default function QuestionBankPage({ courses, questions }: Props) {
     </DashboardShell>
   );
 }
-
-
 
 // Empty state icon
 function BookIcon(props: React.SVGProps<SVGSVGElement>) {

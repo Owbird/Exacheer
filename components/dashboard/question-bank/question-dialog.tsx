@@ -53,7 +53,7 @@ export function NewQuestionDialog({
   const onSubmit = async (data: FormValues) => {
     alert("Submitting question...");
 
-    await addQuestion(data);
+    await addQuestion({...data, aiGenerated: false });
 
     methods.reset({
       question: "",

@@ -139,6 +139,7 @@ Return the result as a JSON array with this shape:
             course.name.toLowerCase() === selectedCourse.toLowerCase(),
         )?.id || "",
       difficulty: q.difficulty,
+      aiGenerated: true,
     };
 
     await addQuestion(fullQuestion);
