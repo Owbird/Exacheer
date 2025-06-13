@@ -35,3 +35,18 @@ export async function addQuestion(data: FormValues) {
     },
   });
 }
+
+export async function getQuestions() {
+  const user = await currentUser();
+
+  if (!user) return;
+
+  const userId = user.id;
+
+  return Prisma.question.findMany({
+    where: { userId },
+    include: {
+      Course: true,
+    },
+  });
+}

@@ -58,6 +58,7 @@ model Question {
   difficulty   String
   options      String[]
   correctIndex Int
+  aiGenerated Boolean @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   Course       Course?  @relation(fields: [courseId], references: [id])

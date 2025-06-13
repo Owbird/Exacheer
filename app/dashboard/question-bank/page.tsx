@@ -1,8 +1,11 @@
-import { getCourses } from "@/app/actions/question-bank";
+import { getCourses, getQuestions } from "@/app/actions/question-bank";
 import QuestionBankPage from "@/sections/question-bank";
 
 export default async function Page() {
-  const courses = await getCourses();
+  const [courses, questions] = await Promise.all([
+    getCourses(),
+    getQuestions(),
+  ]);
 
-  return <QuestionBankPage courses={courses} />;
+  return <QuestionBankPage courses={courses || []} questions={questions || []} />;
 }
