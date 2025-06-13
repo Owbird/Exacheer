@@ -31,6 +31,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { getQuestions } from "@/app/actions/question-bank";
+                  import { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, AlignmentType, PageBreak } from "docx";
+
 
 const difficultyLevels = ["Easy", "Medium", "Hard"];
 
@@ -105,17 +107,106 @@ export default function QuestionBankPage({ courses, questions }: Props) {
                 </Button>
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                  const selected = questions.filter(q =>
+                    selectedQuestions.includes(q.id)
+                  );
+                  if (selected.length === 0) return;
+
+
+                  // Helper to render options
+                  function renderOptions(options: string[]) {
+                    return options.map((opt, idx) =>
+                    new Paragraph({
+                      text: `${String.fromCharCode(65 + idx)}. ${opt}`,
+                      spacing: { after: 100 },
+                    })
+                    );
+                  }
+
+                  // Questions page(s)
+                  const questionParagraphs = selected.flatMap((q, idx) => [
+                    new Paragraph({
+                    text: `Q${idx + 1}. ${q.question}`,
+                    heading: HeadingLevel.HEADING_3,
+                    spacing: { after: 200 },
+                    }),
+                    ...renderOptions(q.options || []),
+                    new Paragraph({ text: "", spacing: { after: 200 } }),
+                  ]);
+
+                  // Marking scheme page
+                  const markingRows = [
+                    new TableRow({
+                      children: [
+                        new TableCell({
+                          children: [new Paragraph({ text: "Q#" })],
+                        }),
+                        new TableCell({
+                          children: [new Paragraph({ text: "Answer" })],
+                        }),
+                      ],
+                    }),
+                    ...selected.map((q, idx) =>
+                      new TableRow({
+                        children: [
+                          new TableCell({
+                            children: [new Paragraph({ text: `Q${idx + 1}` })],
+                          }),
+                          new TableCell({
+                            children: [
+                              new Paragraph({
+                                text: String(["A","B", "C", "D", "E", "F"][q.correctIndex]),
+                              }),
+                            ],
+                          }),
+                        ],
+                      })
+                    ),
+                  ];
+
+                  const doc = new Document({
+                    sections: [
+                    {
+                      properties: {},
+                      children: [
+                      new Paragraph({
+                        text: "Question Paper",
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 400 },
+                      }),
+                      ...questionParagraphs,
+                      new Paragraph({ children: [new PageBreak()] }),
+                      new Paragraph({
+                        text: "Marking Scheme",
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 400 },
+                      }),
+                      new Table({
+                        rows: markingRows,
+                        width: { size: 100, type: "pct" },
+                      }),
+                      ],
+                    },
+                    ],
+                  });
+
+                  const blob = await Packer.toBlob(doc);
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "questions.docx";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                  }}
+                >
                   <Download className="mr-1 h-4 w-4" />
                   Export
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Share2 className="mr-1 h-4 w-4" />
-                  Share
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Sparkles className="mr-1 h-4 w-4" />
-                  Generate Variants
                 </Button>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="mr-1 h-4 w-4" />
