@@ -2,13 +2,13 @@
 
 import type React from "react";
 
-import { useState } from "react";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import AIFab from "@/components/dashboard/question-bank/ai-fab";
+import { NewQuestionDialog } from "@/components/dashboard/question-bank/question-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -31,6 +34,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { UsersCourse } from "@/types";
 import {
   Download,
   Edit,
@@ -39,19 +43,13 @@ import {
   Grid,
   LayoutList,
   MoreHorizontal,
-  Plus,
   Search,
   Share2,
   Sparkles,
   Trash2,
-  X,
+  X
 } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { UsersCourse } from "@/types";
-import { NewQuestionDialog } from "@/components/dashboard/question-bank/question-dialog";
+import { useState } from "react";
 
 const difficultyLevels = ["Easy", "Medium", "Hard"];
 
@@ -505,151 +503,7 @@ export default function QuestionBankPage({ courses }: Props) {
       )}
 
       {/* Floating AI Assistant Widget */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button className="fixed bottom-6 right-6 shadow-lg bg-purple-600 hover:bg-purple-700 rounded-full h-14 px-6">
-            <Sparkles className="mr-2 h-5 w-5" />
-            Generate Questions
-          </Button>
-        </SheetTrigger>
-        <SheetContent className="w-full sm:max-w-[500px]">
-          <SheetHeader>
-            <SheetTitle>AI Question Generator</SheetTitle>
-            <SheetDescription>
-              Generate high-quality questions with AI assistance
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-6 py-6">
-            <div className="space-y-2">
-              <Label>Subject</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select subject" />
-                </SelectTrigger>
-                <SelectContent>
-                  {courses.map(({ name }) => (
-                    <SelectItem
-                      key={name.toLowerCase().replace(/\s+/g, "-")}
-                      value={name.toLowerCase()}
-                    >
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Topic</Label>
-              <Input placeholder="Enter specific topic (e.g., Photosynthesis)" />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Difficulty Level</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select difficulty" />
-                </SelectTrigger>
-                <SelectContent>
-                  {difficultyLevels.map((level) => (
-                    <SelectItem
-                      key={level.toLowerCase()}
-                      value={level.toLowerCase()}
-                    >
-                      {level}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Question Type</Label>
-              <Tabs defaultValue="mcq">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="mcq">Multiple Choice</TabsTrigger>
-                  <TabsTrigger value="short">Short Answer</TabsTrigger>
-                  <TabsTrigger value="essay">Essay</TabsTrigger>
-                </TabsList>
-                <TabsContent value="mcq" className="pt-4">
-                  <div className="space-y-2">
-                    <Label>Number of Options</Label>
-                    <Select defaultValue="4">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="3">3 Options</SelectItem>
-                        <SelectItem value="4">4 Options</SelectItem>
-                        <SelectItem value="5">5 Options</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </TabsContent>
-                <TabsContent value="short" className="pt-4">
-                  <div className="space-y-2">
-                    <Label>Answer Length</Label>
-                    <Select defaultValue="paragraph">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="short">
-                          Short (1-2 sentences)
-                        </SelectItem>
-                        <SelectItem value="paragraph">Paragraph</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </TabsContent>
-                <TabsContent value="essay" className="pt-4">
-                  <div className="space-y-2">
-                    <Label>Essay Type</Label>
-                    <Select defaultValue="analytical">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="analytical">Analytical</SelectItem>
-                        <SelectItem value="argumentative">
-                          Argumentative
-                        </SelectItem>
-                        <SelectItem value="expository">Expository</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Number of Questions</Label>
-              <Select defaultValue="5">
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1 Question</SelectItem>
-                  <SelectItem value="3">3 Questions</SelectItem>
-                  <SelectItem value="5">5 Questions</SelectItem>
-                  <SelectItem value="10">10 Questions</SelectItem>
-                  <SelectItem value="15">15 Questions</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Additional Instructions (Optional)</Label>
-              <Textarea placeholder="Any specific requirements or context for the questions" />
-            </div>
-
-            <Button className="w-full bg-purple-600 hover:bg-purple-700">
-              <Sparkles className="mr-2 h-4 w-4" />
-              Generate with AI
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
+<AIFab courses={courses} difficultyLevels={difficultyLevels} />
     </DashboardShell>
   );
 }
