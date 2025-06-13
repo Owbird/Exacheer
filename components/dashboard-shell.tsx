@@ -189,11 +189,6 @@ const sidebarItems = [
     href: "/dashboard/question-bank",
   },
   {
-    label: "AI Generator",
-    icon: Sparkles,
-    href: "/dashboard/ai-generator",
-  },
-  {
     label: "Profile",
     icon: User2,
     href: "/dashboard/profile",
