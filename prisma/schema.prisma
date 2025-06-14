@@ -53,14 +53,40 @@ model Course {
 
 model Question {
   userId       String
-  id           String   @id @default(cuid())
+  id           String         @id @default(cuid())
   question     String
   difficulty   String
   options      String[]
   correctIndex Int
-  aiGenerated Boolean @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  Course       Course?  @relation(fields: [courseId], references: [id])
+  aiGenerated  Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Course       Course?        @relation(fields: [courseId], references: [id])
   courseId     String?
+  ExamQuestion ExamQuestion[]
+}
+
+model Exam {
+  id           String         @id @default(cuid())
+  title        String
+  userId       String
+  subject      String
+  date         DateTime
+  duration     Int
+  instructions String
+  questions    ExamQuestion[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model ExamQuestion {
+  examId     String
+  questionId String
+  position   Int
+
+  exam     Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([examId, questionId])
+  @@index([questionId])
 }
